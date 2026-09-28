@@ -23,33 +23,23 @@ Mở trình duyệt:
 - REST API: http://localhost:5055/
 - SurrealDB (debug): http://127.0.0.1:8000
 
-> Lần đầu mở Language ở sidebar sẽ chưa có tiếng Việt nếu dùng image gốc —
-> xem mục Việt hoá bên dưới.
+Lần đầu chạy sẽ tự build image local (~10 phút do build frontend) —
+các lần sau vào thẳng. Vào sidebar → **Language → Tiếng Việt** là xong.
 
 ## 🇻🇳 Việt hoá giao diện
 
-Bản build đang chạy đã gồm locale `vi-VN` (963 keys, test parity 34/34 pass).
-Nguồn patch nằm ở `local-vi-lang/`:
+Locale `vi-VN` (963 keys, test parity 34/34 pass) được **build sẵn vào image**
+qua `local-sse-fix/Dockerfile` — `docker compose up --build` là có,
+không cần làm tay.
 
-- `vi-VN/index.ts` — toàn bộ bản dịch
-- `index.ts` — đăng ký `vi-VN` vào `resources`/`languages`
-- `LanguageToggle.tsx` — thêm item **Tiếng Việt** vào dropdown
-- `en-US-index.ts` — bản gốc đối chiếu
-- `add_vi_patch.py` — script chèn key `vietnamese` + item dropdown vào image gốc
+Nguồn patch:
 
-Áp patch vào container đang chạy (cho image chưa có sẵn):
+- `local-sse-fix/vi-lang/` — file build (`vi-VN/index.ts`, `locales-index.ts`,
+  `LanguageToggle.tsx`, `add_vietnamese_key.py`)
+- `local-vi-lang/` — bản làm việc + đối chiếu (`en-US-index.ts`, script cũ)
 
-```bash
-docker cp local-vi-lang/vi-VN/index.ts <container>:/app/frontend/src/lib/locales/vi-VN/index.ts
-docker cp local-vi-lang/index.ts <container>:/app/frontend/src/lib/locales/index.ts
-docker cp local-vi-lang/LanguageToggle.tsx <container>:/app/frontend/src/components/common/LanguageToggle.tsx
-docker cp local-vi-lang/add_vi_patch.py <container>:/tmp/add_vi_patch.py
-docker compose exec open_notebook python3 /tmp/add_vi_patch.py
-docker compose exec open_notebook sh -c "cd /app/frontend && npm ci && npm run build"
-docker compose restart open_notebook
-```
-
-Xong thì hard-refresh trình duyệt (Cmd/Ctrl + Shift + R) → sidebar → **Language → Tiếng Việt**.
+> Chỉ khi dùng image gốc không qua build (ví dụ `docker compose pull`
+> image upstream) mới cần áp tay — xem lịch sử commit để lấy các bước cũ.
 
 ## 🤖 Model đang dùng (gợi ý)
 

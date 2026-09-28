@@ -2,3 +2,7 @@
 !Dockerfile
 !apply_fix.py
 !_sse_keepalive.py
+!vi-lang/vi-VN/index.ts
+!vi-lang/locales-index.ts
+!vi-lang/LanguageToggle.tsx
+!vi-lang/add_vietnamese_key.py
