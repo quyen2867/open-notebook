@@ -1,6 +1,4 @@
-# 📓 Open Notebook — Local Setup (Bản Việt hoá)
-
-Tự host [Open Notebook](https://github.com/lfnovo/open_notebook) (`v1-dev`) bằng Docker trên máy cá nhân:
+# 📓 Open Notebook
 ghi chú, chat với tài liệu, tạo podcast — kèm **giao diện tiếng Việt** và fix SSE cho Source Chat.
 
 ## ✨ Có gì trong repo này
@@ -73,6 +71,4 @@ không-thinking như `llama3.1:8b`.
   rồi `docker compose up -d`.
 
 ## 🔗 Liên quan
-
-- Upstream: https://github.com/lfnovo/open_notebook
 - Repo này: https://github.com/quyen2867/open-notebook
