@@ -1,0 +1,7 @@
+# Local fix pinned to the diagnosed v1-dev image. See local-sse-fix/README.md.
+services:
+  open_notebook:
+    image: open-notebook:sse-fix-20260921
+    pull_policy: never
+    build:
+      context: ./local-sse-fix

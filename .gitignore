@@ -1,0 +1,8 @@
+# secrets + data local
+.env
+notebook_data/
+surreal_data/
+# macOS
+.DS_Store
+# node (nếu build frontend local)
+local-vi-lang/vi-VN/node_modules/
