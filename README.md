@@ -26,6 +26,30 @@ Mở trình duyệt:
 Lần đầu chạy sẽ tự build image local (~10 phút do build frontend) —
 các lần sau vào thẳng. Vào sidebar → **Language → Tiếng Việt** là xong.
 
+## 📖 Cách dùng
+
+1. **Cấu hình model** — sidebar → **Models**: thêm provider (Ollama local
+   hoặc API key cloud như OpenAI/Groq/Gemini), bấm **Sync Models**,
+   rồi gán model mặc định: **Chat** (trả lời), **Embedding** (tìm kiếm),
+   **TTS/STT** (podcast). Chạy Ollama trên máy host thì base URL là
+   `http://host.docker.internal:11434`.
+2. **Tạo Notebook** — nút **New Notebook**: mỗi notebook là một chủ đề,
+   gom các nguồn + ghi chú liên quan.
+3. **Thêm nguồn (Sources)** — **New Source**: dán URL, tải file
+   (PDF/DOC/ảnh/audio) hoặc dán text. Đợi trạng thái **Completed**;
+   bật **embedding** để AI tìm kiếm theo ngữ nghĩa.
+4. **Chat với nguồn** — mở notebook, chat ở khung bên: câu trả lời
+   dựa trên các nguồn đang bật context (bấm vào nguồn để đổi chế độ
+   full/insights/tắt).
+5. **Ask and Search** — hỏi đáp trên toàn bộ knowledge base;
+   chọn **Text search** (từ khoá) hoặc **Vector search** (ngữ nghĩa,
+   cần embedding model).
+6. **Transformations** — biến nguồn thành insight: tóm tắt, trích ý chính...
+   Chạy trên từng nguồn, kết quả lưu thành note.
+7. **Podcasts** — tạo tập podcast từ nội dung: cần **Speaker profile**
+   (giọng, TTS model) + **Episode profile** (kịch bản) trước, rồi **Generate**.
+8. **Đổi tiếng Việt** — cuối sidebar → **Language → Tiếng Việt**.
+
 ## 🇻🇳 Việt hoá giao diện
 
 Locale `vi-VN` (963 keys, test parity 34/34 pass) được **build sẵn vào image**
