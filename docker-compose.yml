@@ -24,7 +24,9 @@ services:
     pull_policy: always
 
   open_notebook:
-    image: lfnovo/open_notebook:v1-dev
+    # Pinned upstream release (docker-compose.override.yml swaps in the local
+    # build with the SSE fix + Vietnamese locale).
+    image: lfnovo/open_notebook:1.15.1
     ports:
       - "8502:8502"  # Web UI
       - "5055:5055"  # REST API
@@ -54,6 +56,15 @@ services:
       # (default 5). Set to 1 for sequential processing on single-GPU / local
       # LLM setups to avoid overloading the model with parallel requests.
       # - OPEN_NOTEBOOK_WORKER_MAX_TASKS=1
+
+      # OPTIONAL: raise the upload/request body limit (MB, default 100) for
+      # large audio/video sources.
+      # - OPEN_NOTEBOOK_MAX_UPLOAD_SIZE_MB=100
+
+      # OPTIONAL: YouTube transcript fallback when YouTube blocks the server
+      # (new in 1.15).
+      # - CCORE_YOUTUBE_PROXY=http://user:pass@proxy:8080
+      # - CCORE_YOUTUBE_COOKIES_FILE=/app/data/cookies.txt
     volumes:
       - ./notebook_data:/app/data
     depends_on:

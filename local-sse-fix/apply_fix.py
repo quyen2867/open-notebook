@@ -69,7 +69,7 @@ assert text.count(old) == 1
 file.write_text(text.replace(old, new))
 
 file, text = verified('/app/api/routers/source_chat.py',
-    '7bcfc44fa3bd5a907f8ce6724ef7cad7b3fe05e672124d739464bf1f4b7de47c')
+    '5bae9aead69c411fcbbe8b1935d54377346b130ed38c329722dffb01adba488e')
 anchor = 'from api.routers._chat_shared import ('
 assert text.count(anchor) == 1
 text = text.replace(anchor,

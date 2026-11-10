@@ -1,6 +1,8 @@
 # 📓 Open Notebook
 ghi chú, chat với tài liệu, tạo podcast — kèm **giao diện tiếng Việt** và fix SSE cho Source Chat.
 
+Bản nền: **Open Notebook v1.15.1** (upstream `lfnovo/open-notebook`).
+
 ## ✨ Có gì trong repo này
 
 | Thành phần | Mô tả |
@@ -52,18 +54,44 @@ các lần sau vào thẳng. Vào sidebar → **Language → Tiếng Việt** l�
 
 ## 🇻🇳 Việt hoá giao diện
 
-Locale `vi-VN` (963 keys, test parity 34/34 pass) được **build sẵn vào image**
-qua `local-sse-fix/Dockerfile` — `docker compose up --build` là có,
-không cần làm tay.
+Locale `vi-VN` (930 keys, khớp 100% key + placeholder với `en-US` của 1.15.1)
+được **build sẵn vào image** qua `local-sse-fix/Dockerfile` —
+`docker compose up --build` là có, không cần làm tay.
+
+Từ 1.15, menu Language tự sinh từ `lib/locales`, nên chỉ cần đăng ký `vi-VN`
+trong `locales/index.ts` (không còn patch `LanguageToggle.tsx`).
 
 Nguồn patch:
 
 - `local-sse-fix/vi-lang/` — file build (`vi-VN/index.ts`, `locales-index.ts`,
-  `LanguageToggle.tsx`, `add_vietnamese_key.py`)
-- `local-vi-lang/` — bản làm việc + đối chiếu (`en-US-index.ts`, script cũ)
+  `check_locales.py` chặn drift khi upstream thêm locale mới)
+- `local-vi-lang/` — bản làm việc + đối chiếu (`en-US-index.ts` của 1.15.1)
 
 > Chỉ khi dùng image gốc không qua build (ví dụ `docker compose pull`
 > image upstream) mới cần áp tay — xem lịch sử commit để lấy các bước cũ.
+
+## ⬆️ Cập nhật từ 1.14.0 → 1.15.1
+
+Đã áp vào repo này (2026-11-10). Những thay đổi đáng chú ý:
+
+- **Bảo mật**: credential trong DB nay mã hoá PBKDF2-HMAC-SHA256 (600k vòng).
+  Key cũ vẫn giải mã bình thường; muốn nâng cấp toàn bộ thì gọi
+  `POST /api/credentials/migrate-encryption` (idempotent).
+- **Bảo mật**: chặn URL trỏ vào link-local / cloud-metadata ở mọi redirect hop;
+  kiểm tra uploads-dir chạy cả trong worker. IP private/localhost (Ollama) vẫn OK.
+- `POST /api/commands/jobs` đã bị **xóa** (giờ trả 405) — dùng endpoint riêng.
+- **Giao diện "Quiet Green"** mới (light/dark).
+- Provider mới: **SiliconFlow**, **Z.ai**, **MiniMax TTS**; OpenRouter có TTS/STT.
+- Upload **OpenDocument** (`.odt`, `.ods`, `.odp`, `.htm`).
+- YouTube bị chặn: đặt `CCORE_YOUTUBE_PROXY` hoặc `CCORE_YOUTUBE_COOKIES_FILE`.
+- Podcast: sửa lỗi profile thiếu voice, ngôn ngữ episode profile được tôn trọng,
+  chèn khoảng nghỉ ~400ms giữa lượt nói, lỗi có gợi ý cụ thể.
+- Giới hạn upload đổi được bằng `OPEN_NOTEBOOK_MAX_UPLOAD_SIZE_MB` (mặc định 100).
+- Thêm tiếng Ý; docs viết lại toàn bộ.
+
+Dữ liệu cũ (`notebook_data/`, `surreal_data/`) dùng tiếp bình thường — không cần
+migrate tay.
+
 
 ## 🤖 Model đang dùng (gợi ý)
 
